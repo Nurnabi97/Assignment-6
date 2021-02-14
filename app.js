@@ -22,10 +22,11 @@ const getImages = (query) => {
     .then(response => response.json())
     .then(data => showImages(data.hits))
     .catch(err => console.log(err))
+  
 }
 // show images 
 const showImages = (images) => {
-  console.log(images);
+  // console.log(images);
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
   // show gallery title
@@ -35,12 +36,14 @@ const showImages = (images) => {
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
+
+    if(gallery.innerHTML == ''){
+      throw new ArgumentNullException("request");
+    }
   })
   loadingSpinner(); //spinner
 }
-
-
-//problem 5 
+ 
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
@@ -51,9 +54,7 @@ const selectItem = (event, img) => {
   if (item === -1) {
     sliders.push(img);
   } 
-  // else {
-  //   alert('Hey, Already added !')
-  // }
+  
 }
 
 
@@ -94,7 +95,7 @@ let newDuration = parseInt(setDuration);
 if(newDuration < 0){
   newDuration = newDuration * -1;
 }else{
-  alert("fill up duration time")
+  alert("Enter Slide Duration Time")
 }
 
 
@@ -156,4 +157,4 @@ const loadingSpinner = spinner =>{
  const spinnerToggle= document.getElementById('spinner')
  spinnerToggle.classList.toggle('d-lg-none');
 }
-document.getElementById('setDuration').required = true;
+
