@@ -17,6 +17,7 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const getImages = (query) => {
   const url =`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
   // console.log(url);
+  loadingSpinner(); //adding spinner
   fetch(url)
     .then(response => response.json())
     .then(data => showImages(data.hits))
@@ -35,22 +36,24 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
-
+  loadingSpinner(); //spinner
 }
+
 
 //problem 5 
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
+  element.classList.toggle('added');
  
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
-  } else {
-    alert('Hey, Already added !')
-  }
+  } 
+  // else {
+  //   alert('Hey, Already added !')
+  // }
 }
 
 
@@ -90,7 +93,11 @@ const setDuration = document.getElementById('setDuration').value;
 let newDuration = parseInt(setDuration);
 if(newDuration < 0){
   newDuration = newDuration * -1;
+}else{
+  alert("fill up duration time")
 }
+
+
 
   timer = setInterval(function (newDuration) {
     slideIndex++;
@@ -139,6 +146,14 @@ sliderBtn.addEventListener('click', function () {
 //keyboard click feature
 document.getElementById('search').addEventListener('keypress', function(event){
 if(event.key == 'Enter'){
+  // console.log(event.key);
   document.getElementById('search-btn').click();
 }
 });
+
+//loading spinner.
+const loadingSpinner = spinner =>{
+ const spinnerToggle= document.getElementById('spinner')
+ spinnerToggle.classList.toggle('d-lg-none');
+}
+document.getElementById('setDuration').required = true;
